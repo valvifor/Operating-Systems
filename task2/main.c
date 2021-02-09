@@ -6,15 +6,16 @@
 extern char *tzname[];
 
 int main() {
-    time_t now;
-    struct tm *time;
+    time_t now; // Определяет переменную now типа time_t.
+    struct tm *times; // Определяет указатель sp на struct tm.
     putenv ("TZ=America/Los_Angeles");
-    (void) time(&now);
-    printf("%s", ctime(&now));
-    time = localtime(&now);
+    (void) time(&now); // Вызывается time.  Время в  секундах  от  00:00:00  UTC  1 января 1970 сохраняется в переменной now.
+    printf("%s", ctime(&now)); // Библиотечная функция ctime(3C) преобразует календарное времяв ASCII-строку  формата date(1).
+    // Адрес,  возвращенный этой функцией,  используется  в  качестве  параметра  printf  для печати ASCII-строки.
+    times = localtime(&now); // Вызывается библиотечная  функция localtime(3C).  Эта функция заполняет значениями поля структуры tm.
     printf("%d/%d/%02d %d:%02d %s\n",
-           time->tm_mon + 1, time->tm_mday, time->tm_year,
-           time->tm_hour, time->tm_min,
-           tzname[sp->tm_isdst]);
+         times->tm_mon + 1, times->tm_mday, times->tm_year,
+         times->tm_hour, times->tm_min,
+         tzname[times->tm_isdst]); // Распечатываются значения полей структуры tm.
     exit(0);
 }
