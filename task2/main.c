@@ -8,7 +8,9 @@ extern char *tzname[];
 int main() {
     time_t now; // Определяет переменную now типа time_t.
     struct tm *times; // Определяет указатель sp на struct tm.
-    putenv ("TZ=America/Los_Angeles");
+    if (putenv ("TZ=America/Los_Angeles")) {
+        perror("Error changing TZ variable\n");
+    }
     (void) time(&now); // Вызывается time.  Время в  секундах  от  00:00:00  UTC  1 января 1970 сохраняется в переменной now.
     printf("%s", ctime(&now)); // Библиотечная функция ctime(3C) преобразует календарное времяв ASCII-строку  формата date(1).
     // Адрес,  возвращенный этой функцией,  используется  в  качестве  параметра  printf  для печати ASCII-строки.
