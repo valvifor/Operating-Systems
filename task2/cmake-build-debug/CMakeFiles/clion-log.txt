@@ -1,0 +1,38 @@
+"C:\Program Files\JetBrains\CLion 2020.2.1\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" C:\Users\НР\OS\task2
+-- The C compiler identification is GNU 8.1.0
+-- Check for working C compiler: C:/MinGW/mingw64/bin/gcc.exe
+-- Check for working C compiler: C:/MinGW/mingw64/bin/gcc.exe - broken
+CMake Error at C:/Program Files/JetBrains/CLion 2020.2.1/bin/cmake/win/share/cmake-3.17/Modules/CMakeTestCCompiler.cmake:60 (message):
+  The C compiler
+
+    "C:/MinGW/mingw64/bin/gcc.exe"
+
+  is not able to compile a simple test program.
+
+  It fails with the following output:
+
+    Change Dir: C:/Users/РќР /OS/task2/cmake-build-debug/CMakeFiles/CMakeTmp
+    
+    Run Build Command(s):C:/MinGW/mingw64/bin/mingw32-make.exe cmTC_5671f/fast && C:/MinGW/mingw64/bin/mingw32-make.exe  -f CMakeFiles\cmTC_5671f.dir\build.make CMakeFiles/cmTC_5671f.dir/build
+    mingw32-make.exe[1]: Entering directory 'C:/Users/в•ђв•Ё/OS/task2/cmake-build-debug/CMakeFiles/CMakeTmp'
+    Building C object CMakeFiles/cmTC_5671f.dir/testCCompiler.c.obj
+    C:\MinGW\mingw64\bin\gcc.exe    -o CMakeFiles\cmTC_5671f.dir\testCCompiler.c.obj   -c C:\Users\в•ЁР­в•ЁР°\OS\task2\cmake-build-debug\CMakeFiles\CMakeTmp\testCCompiler.c
+    gcc.exe: error: C:\Users\в•ЁР­в•ЁР°\OS\task2\cmake-build-debug\CMakeFiles\CMakeTmp\testCCompiler.c: No such file or directory
+    gcc.exe: fatal error: no input files
+    compilation terminated.
+    mingw32-make.exe[1]: *** [CMakeFiles\cmTC_5671f.dir\build.make:85: CMakeFiles/cmTC_5671f.dir/testCCompiler.c.obj] Error 1
+    mingw32-make.exe[1]: Leaving directory 'C:/Users/в•ђв•Ё/OS/task2/cmake-build-debug/CMakeFiles/CMakeTmp'
+    mingw32-make.exe: *** [Makefile:140: cmTC_5671f/fast] Error 2
+    
+    
+
+  
+
+  CMake will not be able to correctly generate this project.
+Call Stack (most recent call first):
+  CMakeLists.txt:2 (project)
+
+
+-- Configuring incomplete, errors occurred!
+See also "C:/Users/РќР /OS/task2/cmake-build-debug/CMakeFiles/CMakeOutput.log".
+See also "C:/Users/РќР /OS/task2/cmake-build-debug/CMakeFiles/CMakeError.log".
