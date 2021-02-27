@@ -6,7 +6,7 @@
 int main(int argc, char *argv[]) {
     printf("\nReal user ID: %d\n", getuid());
     printf("Effective user ID: %d\n", geteuid());
-    FILE *file1 = fopen("file1.txt", "r");
+    FILE *file1 = fopen("file.txt", "r");
     if (file1 == NULL) { 
         perror ("The file cannot be opened"); 
     } else {
@@ -20,8 +20,8 @@ int main(int argc, char *argv[]) {
     }
     printf("\nReal user ID: %d\n", getuid());
     printf("Effective user ID: %d\n", geteuid());
-    FILE *file2 = fopen("file2.txt", "r");
-    //создание объекта типа FILE, открытие файла под названием file2.txt для чтения
+    FILE *file2 = fopen("file.txt", "r");
+    //создание объекта типа FILE, открытие файла под названием file.txt для чтения
     if (file2 == NULL) { // проверка на успешное открытие файла
         perror ("The file cannot be opened"); // perror() записывает в stderr ошибку
     } else {
