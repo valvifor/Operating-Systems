@@ -9,7 +9,7 @@
 
 extern char **environ;
 extern  char *optarg; //указатель на символ. Когда getopt() обрабатывает опцию, у которой есть аргументы, optarg содержит адрес этого аргумента.
-extern int optind, opterr, optopt; //Optind – индекс на следующий указатель argv, который будет обработан при следующем вызове ф-и
+extern int optind, opterr, optopt; //Optind  хранит текущий индекс в argv
 //Optopt – последний из известных параметров
 
 /*
@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
     long int arg;
     char *dir = NULL;
 
-    if(argc < 2) { // роверка на корректное количество аргументов
+    if(argc < 2) { // проверка на корректное количество аргументов
         fprintf(stderr,"Usage: %s options\n", argv[0]);
         exit(0);
     }
@@ -42,7 +42,7 @@ int main(int argc, char *argv[]){
                 break;
 
             case 's': //Процесс становится лидером группы.
-                if (setpgid(0, 0) == ERROR) { //setpgid(pid_t pid, pid_t pgid);устанавливает PGID у процесса с идентификатором pid равным pgid [ setpgrp()]
+                if (setpgid(0, 0) == ERROR) { //setpgid(pid_t pid, pid_t pgid);устанавливает PGID у процесса с идентификатором pid равным pgid
                     perror("Error [-s]");
                 } else {
                     printf("%d is now leader of group\n", getpid()); //getpid() возвращает идентификатор вызвавшего процесса
@@ -55,7 +55,7 @@ int main(int argc, char *argv[]){
                 printf("Group PID: %ld\n", getpgid(0));//возвращает PGID процесса с заданным pid. Если значение pid равно нулю, то используется идентификатор вызывающего процесса
                 break;
 
-            case 'u': //Печатает значение ulimit // ограничения текущего процесса, например, количество одновременно открытых файлов.
+            case 'u': //Печатает значение ulimit
                 uLimitResult = ulimit(UL_GETFSIZE);// UL_GETFSIZE -- Возвращается ограничение на размер файла. Вызов ulimit позволяет получить или установить ограничения вызывающего процесса
                 if (uLimitResult == ERROR) {
                     perror ("Error [-u]");
