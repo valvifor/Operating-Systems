@@ -9,7 +9,6 @@
 #define ERROR -1
 #define SUCCESS 0
 #define ERROR_WIFEXITED 0
-#define SIZE 4
 
 int main(int argc, char **argv){
     pid_t pid; // pid_t тип данных для ID процесса
