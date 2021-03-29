@@ -9,6 +9,8 @@
 #define ERROR -1
 #define SUCCESS 0
 #define ERROR_WIFEXITED 0
+#define ERROR_WIFSIGNALED 0
+#define EXIT_CODE 1
 
 int main(int argc, char **argv){
     pid_t pid; // pid_t тип данных для ID процесса
@@ -16,7 +18,7 @@ int main(int argc, char **argv){
     //процесса. Проржденный процесс -> 0. Неудача -> -1 и устанавливается значение errno
     if (pid == ERROR) {
         perror("Fork error");
-        exit(1);
+        exit(EXIT_CODE);
     } else if (pid == SUCCESS) { // порожденный процесс
         char *command = "cat";
         char *newArgv[] = {command, argv[1], (char*) 0}; //конец списка  параметров. Он необходим, потому что
@@ -24,7 +26,7 @@ int main(int argc, char **argv){
         int callingCode = execvp(command, newArgv);
         if (callingCode == ERROR) {
             perror("Execvp error");
-            exit(1);
+            exit(EXIT_CODE);
         }
     }
 
@@ -35,6 +37,13 @@ int main(int argc, char **argv){
         printf("\nWaited long enough for child %d to die his own death with code %d\n", childID, WEXITSTATUS(exitCode));
         // возвращает код завершения подпроцесса
         exit(0);
+    } else {
+        check = WIFSIGNALED(exitCode);
+        if (check != ERROR_WIFSIGNALED){
+            printf("\nChild %d died because of the signal %d\n", childID, WTERMSIG(exitCode));
+            exit(EXIT_CODE);
+
+        }
     }
     return 0;
 }
