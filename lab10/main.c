@@ -13,7 +13,6 @@
 
 int main(int argc, char * argv[]){
     pid_t pid;// pid_t тип данных для ID процесса
-    int status;
     if(argc == WRONG_ARGC) {
         printf("No program availiable\n");
         exit(EXIT_CODE);
@@ -35,8 +34,9 @@ int main(int argc, char * argv[]){
     pid_t childID = wait(&exitCode);//ожидание остановки или завершения порожденного процесса
     int check = WIFEXITED(exitCode);//не равно нулю, если дочерний процесс успешно завершился.
     if(check != ERROR_WIFEXITED) {
-        int exitStatus = WEXITSTATUS(status);
+        int exitStatus = WEXITSTATUS(exitCode);
         printf("\nExit code %lld: %d\n", pid, exitStatus);
+        exit(0);
     } else {
         printf("\nthe child process %lld failed with an error\n", pid);
         exit(EXIT_CODE);
