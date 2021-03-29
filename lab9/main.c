@@ -34,7 +34,8 @@ int main(int argc, char **argv){
     pid_t childID = wait(&exitCode);//ожидание остановки или завершения порожденного процесса
     int check = WIFEXITED(exitCode); //не равно нулю, если дочерний процесс успешно завершился.
     if (check != ERROR_WIFEXITED) {
-        printf("\nWaited long enough for child %d to die his own death with code %d\n", childID, WEXITSTATUS(exitCode));
+        int exitStatus = WEXITSTATUS(exitCode);
+        printf("\nWaited long enough for child %d to die his own death with code %d\n", childID, exitStatus);
         // возвращает код завершения подпроцесса
         exit(0);
     } else {
