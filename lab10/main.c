@@ -10,6 +10,7 @@
 #define ERROR -1
 #define ERROR_WIFEXITED 0
 #define SUCCESS 0
+#define CHILD 0
 
 int main(int argc, char * argv[]){
     pid_t pid;// pid_t тип данных для ID процесса
@@ -19,10 +20,13 @@ int main(int argc, char * argv[]){
     }
     pid = fork();// создать новый прооцесс. Родительский процесс -> идентификатор порожденного
     //процесса. Проржденный процесс -> 0. Неудача -> -1 и устанавливается значение errno
+
     if (pid == ERROR) {
         perror("Fork error");
         exit(EXIT_CODE);
-    } else if (pid == SUCCESS) {// порожденный процесс
+    }
+
+    if (pid == CHILD) {// порожденный процесс
         char *command = argv[1];
         int callingCode = execvp(command, argv + 1);
         if (callingCode == ERROR) {
@@ -30,16 +34,24 @@ int main(int argc, char * argv[]){
             exit(EXIT_CODE);
         }
     }
-    int exitCode;
-    pid_t childID = wait(&exitCode);//ожидание остановки или завершения порожденного процесса
-    int check = WIFEXITED(exitCode);//не равно нулю, если дочерний процесс успешно завершился.
-    if(check != ERROR_WIFEXITED) {
-        int exitStatus = WEXITSTATUS(exitCode);
-        printf("\nExit code %lld: %d\n", pid, exitStatus);
-        exit(0);
-    } else {
-        printf("\nthe child process %lld failed with an error\n", pid);
-        exit(EXIT_CODE);
+
+    else {
+        int exitCode;
+        pid_t childID = wait(&exitCode);//ожидание остановки или завершения порожденного процесса
+        if (childID == ERROR) {
+            perror("Error in wait");
+            exit(EXIT_CODE);
+        }
+
+        int check = WIFEXITED(exitCode);//не равно нулю, если дочерний процесс успешно завершился.
+
+        if (check != 0) {
+            int exitStatus = WEXITSTATUS(exitCode);
+            printf("\nExit code %lld: %d\n", pid, exitStatus);
+            exit(SUCCESS);
+        } else {
+            printf("\nthe child process %lld failed with an error\n", pid);
+            exit(EXIT_CODE);
+        }
     }
-    return 0;
 }
