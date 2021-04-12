@@ -8,7 +8,6 @@
 #define WRONG_ARGC 1
 #define EXIT_CODE 1
 #define ERROR -1
-#define ERROR_WIFEXITED 0
 #define SUCCESS 0
 #define CHILD 0
 
