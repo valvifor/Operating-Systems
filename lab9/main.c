@@ -7,44 +7,46 @@
 #include <string.h>
 
 #define ERROR -1
+#define CHILD 0
 #define SUCCESS 0
-#define ERROR_WIFEXITED 0
-#define ERROR_WIFSIGNALED 0
 #define EXIT_CODE 1
 
-int main(int argc, char **argv){
+int main(int argc, char **argv) {
     pid_t pid; // pid_t тип данных для ID процесса
     pid = fork(); // создать новый прооцесс. Родительский процесс -> идентификатор порожденного
     //процесса. Проржденный процесс -> 0. Неудача -> -1 и устанавливается значение errno
+
     if (pid == ERROR) {
         perror("Fork error");
         exit(EXIT_CODE);
-    } else if (pid == SUCCESS) { // порожденный процесс
+    }
+
+    if (pid == CHILD) { // порожденный процесс
         char *command = "cat";
-        char *newArgv[] = {command, argv[1], (char*) 0}; //конец списка  параметров. Он необходим, потому что
+        char *newArgv[] = {command, argv[1], (char *) 0}; //конец списка  параметров. Он необходим, потому что
         //execvp может  быть передано  произвольное  число параметров.
-        int callingCode = execvp(command, newArgv);
+        int callingCode = execv(command, newArgv); // значение возвращается только при возникновении ошибки
         if (callingCode == ERROR) {
             perror("Execvp error");
             exit(EXIT_CODE);
         }
+        // в случае успешного выполнения функции execv новая программа не возвращает управление в исходную
     }
 
-    int exitCode;
-    pid_t childID = wait(&exitCode);//ожидание остановки или завершения порожденного процесса
-    int check = WIFEXITED(exitCode); //не равно нулю, если дочерний процесс успешно завершился.
-    if (check != ERROR_WIFEXITED) {
-        int exitStatus = WEXITSTATUS(exitCode);
-        printf("\nWaited long enough for child %d to die his own death with code %d\n", childID, exitStatus);
-        // возвращает код завершения подпроцесса
-        exit(0);
-    } else {
-        check = WIFSIGNALED(exitCode);
-        if (check != ERROR_WIFSIGNALED){
-            printf("\nChild %d died because of the signal %d\n", childID, WTERMSIG(exitCode));
+    else { // родительский процесс
+        int exitCode;
+        pid_t childID = wait(&exitCode);//ожидание остановки или завершения порожденного процесса
+        if (childID == ERROR) {
+            perror("Error in wait");
             exit(EXIT_CODE);
-
         }
+
+        int check = WIFEXITED(exitCode); //не равно нулю, если дочерний процесс успешно завершился
+
+        if (check != 0) {
+            int exitStatus = WEXITSTATUS(exitCode);
+            printf("\nThe child process %d ended with code %d\n", childID, exitStatus);// возвращает код завершения подпроцесса
+            exit(SUCCESS);
+        } 
     }
-    return 0;
 }
