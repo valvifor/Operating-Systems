@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
         char *command = "cat";
         char *newArgv[] = {command, argv[1], (char *) 0}; //конец списка  параметров. Он необходим, потому что
         //execvp может  быть передано  произвольное  число параметров.
-        int callingCode = execv(command, newArgv); // значение возвращается только при возникновении ошибки
+        int callingCode = execvp(command, newArgv); // значение возвращается только при возникновении ошибки
         if (callingCode == ERROR) {
             perror("Execvp error");
             exit(EXIT_CODE);
