@@ -47,6 +47,9 @@ int main(int argc, char **argv) {
             int exitStatus = WEXITSTATUS(exitCode);
             printf("\nThe child process %d ended with code %d\n", childID, exitStatus);// возвращает код завершения подпроцесса
             exit(SUCCESS);
-        } 
+        } else {
+            printf("\nthe child process %lld failed with an error\n", pid);
+            exit(EXIT_CODE);
+        }
     }
 }
