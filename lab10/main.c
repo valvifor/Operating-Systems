@@ -5,16 +5,17 @@
 #include <sys/wait.h>
 #include <wait.h>
 
-#define WRONG_ARGC 1
 #define EXIT_CODE 1
 #define ERROR -1
 #define SUCCESS 0
 #define CHILD 0
+#define ERROR_CHECK 0
+#define NUM_OF_ARGS 2
 
 int main(int argc, char * argv[]){
     pid_t pid;// pid_t тип данных для ID процесса
-    if(argc == WRONG_ARGC) {
-        printf("No program availiable\n");
+    if (argc < NUM_OF_ARGS) {
+        printf ("incorrect number of arguments\n");
         exit(EXIT_CODE);
     }
     pid = fork();// создать новый прооцесс. Родительский процесс -> идентификатор порожденного
@@ -44,13 +45,13 @@ int main(int argc, char * argv[]){
 
         int check = WIFEXITED(exitCode);//не равно нулю, если дочерний процесс успешно завершился.
 
-        if (check != 0) {
-            int exitStatus = WEXITSTATUS(exitCode);
-            printf("\nExit code %lld: %d\n", pid, exitStatus);
-            exit(SUCCESS);
-        } else {
+        if (check == ERROR_CHECK) {
             printf("\nthe child process %lld failed with an error\n", pid);
             exit(EXIT_CODE);
+        } else {
+            int exitStatus = WEXITSTATUS(exitCode);
+            printf("\nThe child process %d ended with code %d\n", childID, exitStatus);// возвращает код завершения подпроцесса
+            exit(SUCCESS);
         }
     }
 }
