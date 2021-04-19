@@ -11,13 +11,14 @@
 #define SUCCESS 0
 #define EXIT_CODE 1
 #define ERROR_CHECK 0
+#define NUM_OF_ARG 2
 
 int main(int argc, char **argv) {
-    if (argc != 2){
+    if (argc != NUM_OF_ARG){
         printf("incorrect number of arguments\n");
         exit(EXIT_CODE);
     }
-    
+
     pid_t pid; // pid_t тип данных для ID процесса
     pid = fork(); // создать новый прооцесс. Родительский процесс -> идентификатор порожденного
     //процесса. Проржденный процесс -> 0. Неудача -> -1 и устанавливается значение errno
