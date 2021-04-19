@@ -12,6 +12,7 @@ extern char **environ;
 #define CHILD 0
 #define SUCCESS 0
 #define ERROR_CHECK 0
+#define NUM_OF_ARGS 2
 
 int execvpe(char *file, char *argv[], char *envp[]){
     char **oldEnviron = environ;
@@ -49,7 +50,11 @@ int main(int argc, char * argv[]){
     pid_t pid;
     char *command = argv[1];
     char *newArgv[] = {command, (char*)0};
-
+    
+    if (argc < NUM_OF_ARGS) {
+        printf ("incorrect number of arguments\n");
+        exit(EXIT_CODE);
+    }
     pid = fork();
 
     if (pid == ERROR) {
