@@ -63,7 +63,7 @@ int main(int argc, char * argv[]){
     }
 
     if (pid == CHILD) {
-        int res = execvpe(fileName, newArgv, argv + 1);
+        int res = execvpe(command, newArgv, argv + 1);
         if (res != SUCCESS) {
             perror("execvpe error");
             exit(EXIT_CODE);
