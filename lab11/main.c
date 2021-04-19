@@ -11,6 +11,7 @@ extern char **environ;
 #define ERROR -1
 #define CHILD 0
 #define SUCCESS 0
+#define ERROR_CHECK 0
 
 int execvpe(char *file, char *argv[], char *envp[]){
     char **oldEnviron = environ;
@@ -66,13 +67,13 @@ int main(int argc, char * argv[]){
 
         int check = WIFEXITED(status);//не равно нулю, если дочерний процесс успешно завершился.
 
-        if (check != 0) {
+        if (check == ERROR_CHECK) {
+            printf("\nthe child process failed with an error\n");
+            exit(EXIT_CODE);
+        } else {
             int exitStatus = WEXITSTATUS(status);
             printf("\nchild process completed successfully\n");
             exit(SUCCESS);
-        } else {
-            printf("\nthe child process failed with an error\n");
-            exit(EXIT_CODE);
         }
     }
     exit(SUCCESS);
