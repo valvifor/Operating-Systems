@@ -10,8 +10,14 @@
 #define CHILD 0
 #define SUCCESS 0
 #define EXIT_CODE 1
+#define ERROR_CHECK 0
 
 int main(int argc, char **argv) {
+    if (argc != 2){
+        printf("incorrect number of arguments\n");
+        exit(EXIT_CODE);
+    }
+    
     pid_t pid; // pid_t тип данных для ID процесса
     pid = fork(); // создать новый прооцесс. Родительский процесс -> идентификатор порожденного
     //процесса. Проржденный процесс -> 0. Неудача -> -1 и устанавливается значение errno
@@ -43,13 +49,13 @@ int main(int argc, char **argv) {
 
         int check = WIFEXITED(exitCode); //не равно нулю, если дочерний процесс успешно завершился
 
-        if (check != 0) {
+        if (check == ERROR_CHECK) {
+            printf("\nthe child process %lld failed with an error\n", pid);
+            exit(EXIT_CODE);
+        } else {
             int exitStatus = WEXITSTATUS(exitCode);
             printf("\nThe child process %d ended with code %d\n", childID, exitStatus);// возвращает код завершения подпроцесса
             exit(SUCCESS);
-        } else {
-            printf("\nthe child process %lld failed with an error\n", pid);
-            exit(EXIT_CODE);
         }
     }
 }
