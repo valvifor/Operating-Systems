@@ -15,10 +15,17 @@ extern char **environ;
 
 int execvpe(char *file, char *argv[], char *envp[]){
     char **oldEnviron = environ;
-    clearenv();
+    int result = clearenv();
+    if (result != SUCCESS) {
+        printf("Error with clearenv\n");
+        exit(EXIT_CODE);
+    }
     char **p;
     for(p = envp ; *p ; p++) {
-        putenv(*p);
+        if (putenv(*p) == ERROR) {
+            printf("Error with putenv\n");
+            exit(EXIT_CODE);
+        }
     }
     printf("\nnew environ: \n");
     for(p = environ ; *p ; p++) {
@@ -40,8 +47,8 @@ int execvpe(char *file, char *argv[], char *envp[]){
 
 int main(int argc, char * argv[]){
     pid_t pid;
-    char *fileName = argv[1];
-    char *newArgv[] = {fileName, (char*)0};
+    char *command = argv[1];
+    char *newArgv[] = {command, (char*)0};
 
     pid = fork();
 
