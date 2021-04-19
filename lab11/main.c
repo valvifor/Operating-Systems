@@ -19,13 +19,13 @@ int execvpe(char *file, char *argv[], char *envp[]){
     int result = clearenv();
     if (result != SUCCESS) {
         printf("Error with clearenv\n");
-        exit(EXIT_CODE);
+        return EXIT_CODE;
     }
     char **p;
     for(p = envp ; *p ; p++) {
         if (putenv(*p) == ERROR) {
             printf("Error with putenv\n");
-            exit(EXIT_CODE);
+            return EXIT_CODE;
         }
     }
     printf("\nnew environ: \n");
@@ -36,12 +36,7 @@ int execvpe(char *file, char *argv[], char *envp[]){
     int callingCode = execvp(file, argv); // значение возвращается только при возникновении ошибки
     if (callingCode == ERROR) {
         perror("Execvp error");
-        exit(EXIT_CODE);
-    }
-    environ = oldEnviron;
-    printf("\nold environ: \n");
-    for(p = environ ; *p ; p++) {
-        printf("%s\n", *p);
+        return EXIT_CODE;
     }
     return SUCCESS;
 }
