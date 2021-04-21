@@ -11,7 +11,7 @@ extern char **environ;
 #define ERROR -1
 #define CHILD 0
 #define SUCCESS 0
-#define ERROR_CHECK 0
+#define TRUE 1
 #define NUM_OF_ARGS 2
 
 int execvpe(char *file, char *argv[], char *envp[]){
@@ -35,6 +35,7 @@ int execvpe(char *file, char *argv[], char *envp[]){
     printf("\nresult of executing your command:\n");
     int callingCode = execvp(file, argv); // значение возвращается только при возникновении ошибки
     if (callingCode == ERROR) {
+        environ = oldEnviron;
         perror("Execvp error");
         return EXIT_CODE;
     }
@@ -45,7 +46,7 @@ int main(int argc, char * argv[]){
     pid_t pid;
     char *command = argv[1];
     char *newArgv[] = {command, (char*)0};
-    
+
     if (argc < NUM_OF_ARGS) {
         printf ("incorrect number of arguments\n");
         exit(EXIT_CODE);
@@ -72,15 +73,14 @@ int main(int argc, char * argv[]){
             exit(EXIT_CODE);
         }
 
-        int check = WIFEXITED(status);//не равно нулю, если дочерний процесс успешно завершился.
-
-        if (check == ERROR_CHECK) {
-            printf("\nthe child process failed with an error\n");
-            exit(EXIT_CODE);
-        } else {
+        if (WIFEXITED(status) == TRUE) {
             int exitStatus = WEXITSTATUS(status);
-            printf("\nchild process completed successfully\n");
+            printf("\nThe child process %d ended with code %d\n", childID, exitStatus);// возвращает код завершения подпроцесса
             exit(SUCCESS);
+        } else if (WIFSIGNALED(status) == TRUE){
+            int signal = WTERMSIG(status);
+            printf("\nthe child process %lld failed with signal%d\n", pid, signal);
+            exit(EXIT_CODE);
         }
     }
     exit(SUCCESS);
