@@ -9,7 +9,7 @@
 #define ERROR -1
 #define SUCCESS 0
 #define CHILD 0
-#define ERROR_CHECK 0
+#define TRUE 1
 #define NUM_OF_ARGS 2
 
 int main(int argc, char * argv[]){
@@ -36,22 +36,21 @@ int main(int argc, char * argv[]){
     }
 
     else {
-        int exitCode;
-        pid_t childID = wait(&exitCode);//ожидание остановки или завершения порожденного процесса
+        int status;
+        pid_t childID = wait(&status);//ожидание остановки или завершения порожденного процесса
         if (childID == ERROR) {
             perror("Error in wait");
             exit(EXIT_CODE);
         }
 
-        int check = WIFEXITED(exitCode);//не равно нулю, если дочерний процесс успешно завершился.
-
-        if (check == ERROR_CHECK) {
-            printf("\nthe child process %lld failed with an error\n", pid);
-            exit(EXIT_CODE);
-        } else {
-            int exitStatus = WEXITSTATUS(exitCode);
+        if (WIFEXITED(status) == TRUE) {
+            int exitStatus = WEXITSTATUS(status);
             printf("\nThe child process %d ended with code %d\n", childID, exitStatus);// возвращает код завершения подпроцесса
             exit(SUCCESS);
+        } else if (WIFSIGNALED(status) == TRUE){
+            int signal = WTERMSIG(status);
+            printf("\nthe child process %lld failed with signal%d\n", pid, signal);
+            exit(EXIT_CODE);
         }
     }
 }
