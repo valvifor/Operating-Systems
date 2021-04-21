@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
             exit(EXIT_CODE);
         }
 
-        int check = WIFEXITED(exitCode); //не равно нулю, если дочерний процесс успешно завершился
+        int check = WIFEXITED(exitCode);
 
         if (check == ERROR_CHECK) {
             printf("\nthe child process %lld failed with an error\n", pid);
