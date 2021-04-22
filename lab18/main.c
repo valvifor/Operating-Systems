@@ -42,21 +42,24 @@ void getNumberLinks(struct stat stat) {
     printf("%4d", stat.st_nlink);
 }
 
-void getOwner(struct stat stat) {
+int getOwner(struct stat stat) {
     struct passwd* pwd;
     pwd = getpwuid(stat.st_uid);
     if (pwd == NULL) {
-        printf(" %d", stat.st_uid);
+        printf("getpwuid error\n");
+        return ERROR;
     } else {
         printf(" %s", pwd->pw_name);
     }
+    return SUCCESS;
 }
 
-void getGroup(struct stat stat) {
+int getGroup(struct stat stat) {
     struct group* grp;
     grp = getgrgid(stat.st_gid);
     if (grp == NULL) {
-        printf(" %d", stat.st_gid);
+        printf("getgrgid error");
+        return ERROR;
     } else {
         printf(" %s", grp->gr_name);
     }
@@ -66,10 +69,14 @@ void getFileSize(struct stat stat){
     printf("    %ld", stat.st_size);
 }
 
-void getTime(struct stat stat) {
-    char lbuf[SIZE_BUF] = { 0 };
-    strftime(lbuf, TIME_LENGTH, "%b %e %H:%M", localtime(&(stat.st_ctime)));
-    printf(" %s", lbuf);
+int getTime(struct stat stat) {
+    char *time = ctime(&stat.st_mtime);
+    if (time == NULL) {
+        printf("ctime error");
+        return ERROR;
+    } else {
+        printf(" %s", time);
+    }
 }
 
 void getFileName(char** dirs, int i) {
@@ -101,10 +108,16 @@ int lsCommand(char** dirs) {
         }
         getMode(stat);
         getNumberLinks(stat);
-        getOwner(stat);
-        getGroup(stat);
+        if (getOwner(stat) == ERROR) {
+            return ERROR;
+        }
+        if (getGroup(stat) == ERROR) {
+            return ERROR;
+        }
         getFileSize(stat);
-        getTime(stat);
+        if (getTime(stat) == ERROR) {
+            return ERROR;
+        }
         getFileName(dirs, i);
     }
     return SUCCESS;
