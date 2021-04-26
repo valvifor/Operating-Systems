@@ -25,7 +25,7 @@ int execvpe(char *file, char *argv[], char *envp[]){
 }
 
 int main(int argc, char * argv[]){
-    char *newArgv[] = {"prog", (char*)0};
+    char *newArgv[2] = {"prog", (char*)0};
     char *newEnvp[3] = {"TZ=America/Los_Angeles", "PATH=/home/students/19200/v.petrova/task11", (char*)0};
     int res = execvpe(newArgv[0], newArgv, newEnvp);
     if (res == ERROR) {
