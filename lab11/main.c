@@ -14,14 +14,11 @@ extern char **environ;
 int execvpe(char *file, char *argv[], char *envp[]){
     char **oldEnviron = environ;
     environ = envp;
-    printf("\nresult of executing your command:\n");
-    int callingCode = execvp(file, argv); // значение возвращается только при возникновении ошибки
-    if (callingCode == ERROR) {
-        environ = oldEnviron;
-        perror("Execvp error");
-        return EXIT_CODE;
-    }
-    return SUCCESS;
+    printf("result of executing your command:\n");
+    execvp(file, argv); 
+    environ = oldEnviron;
+    perror("Execvp error");
+    return EXIT_CODE;
 }
 
 int main(int argc, char * argv[]){
