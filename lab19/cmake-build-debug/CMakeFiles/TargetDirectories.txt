@@ -1,0 +1,3 @@
+D:/OS/lab19/cmake-build-debug/CMakeFiles/lab19.dir
+D:/OS/lab19/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/OS/lab19/cmake-build-debug/CMakeFiles/rebuild_cache.dir
