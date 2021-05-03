@@ -35,9 +35,8 @@ int readPattern(char *pattern) {
 
 int print(char *pattern) {
     glob_t result;
-    int flag = glob(pattern, GLOB_MARK | GLOB_ERR, NULL, &result);
+    int flag = glob(pattern, GLOB_NOCHECK, NULL, &result);
     if (flag != SUCCESS) {
-        printf("%s\n", pattern);
         perror("glob error");
         globfree(&result);
         return ERROR;
