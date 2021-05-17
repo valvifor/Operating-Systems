@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 2020.2.1\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\lab25.dir/objects.a
+C:\MinGW\mingw64\bin\ar.exe cr CMakeFiles\lab25.dir/objects.a @CMakeFiles\lab25.dir\objects1.rsp
+C:\MinGW\mingw64\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\lab25.dir/objects.a -Wl,--no-whole-archive -o lab25.exe -Wl,--out-implib,liblab25.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\lab25.dir\linklibs.rsp

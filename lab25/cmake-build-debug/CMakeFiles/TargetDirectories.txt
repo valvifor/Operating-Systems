@@ -1,0 +1,3 @@
+D:/OS/lab25/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+D:/OS/lab25/cmake-build-debug/CMakeFiles/lab25.dir
+D:/OS/lab25/cmake-build-debug/CMakeFiles/edit_cache.dir
